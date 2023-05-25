@@ -1,7 +1,19 @@
-.container-div {
-    width: 500px;
-    margin: 30px auto;
+.container {
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+div.input-group {
+    width: 400px;
+}
+
+#main {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 50px;
+    gap: 20px;
 }
