@@ -1,7 +1,7 @@
-const apiUrl = "https://api.pexels.com/v1"; //l'indirizzo dell'endpoint da passare al fetch come url
-const apiKey = "tF2lGCLg3V2Sl90gHkjdJ6tastROqqRLls6CcktufE4ILNezlPgJLqY4"; //la api key da inserire in authorization nel header della chiamata fetch
-let mainDiv = document.getElementById("main");
-let amountDiv = document.getElementById("amount");
+const apiUrl = "https://api.pexels.com/v1"; // l'indirizzo dell'endpoint da passare al fetch come url
+const apiKey = "tF2lGCLg3V2Sl90gHkjdJ6tastROqqRLls6CcktufE4ILNezlPgJLqY4"; // la api key da inserire in authorization nel header della chiamata fetch
+let mainDiv = document.getElementById("main"); // div contenitore delle card
+let amountDiv = document.getElementById("amount"); // div che indica il numero di elementi trovati
 
 function getAlbum() {
     let userInput = document.getElementById("input-text").value;
@@ -21,31 +21,29 @@ function getAlbum() {
 
 function putAlbum(json) {
     console.log(json);
+    console.log("Pagina successiva: " + json.next_page); // riferimento pagina successiva (da associare ai button avanti e indietro)
+    mainDiv.innerHTML = "";
+    let totalResults = json.total_results;
     let jsonPhotos = json.photos;
-    let img;
-    let bootCardDiv;
-    let bootCardBodyDiv;
-    let bootPCardBoyElement;
-    let indexAmount = 0;
     jsonPhotos.forEach((element, index) => {
-        console.log(element);
-        indexAmount++;
-        img = document.createElement("img");
-        bootCardDiv = document.createElement("div");
-        bootCardBodyDiv = document.createElement("div");
-        bootPCardBoyElement = document.createElement("p");
+        createCard(element);
 
-        bootCardDiv.classList.add("card");
-        bootCardDiv.style = "width: 18rem;";
-        img.src = element.src.tiny;
-        img.classList.add("card-img-top");
-        bootCardBodyDiv.classList.add("card-body");
-        bootPCardBoyElement.classList.add("card-text");
-        bootCardBodyDiv.textContent = element.alt;
-        mainDiv.appendChild(bootCardDiv);
-        bootCardDiv.appendChild(img);
-        bootCardDiv.appendChild(bootCardBodyDiv);
-        bootCardBodyDiv.appendChild(bootPCardBoyElement);
     });
-    amountDiv.innerHTML = `<h4>${indexAmount} elementi trovati.</h4>`;
+    amountDiv.innerHTML = `<h4>${totalResults} elementi trovati.</h4>`;
+}
+
+function createCard(foreachObject) {
+    let img = document.createElement("img");
+    let bootCardDiv = document.createElement("div");
+    let bootCardBodyDiv = document.createElement("div");
+
+    bootCardDiv.classList.add("card");
+    bootCardDiv.style = "width: 18rem;";
+    img.src = foreachObject.src.tiny;
+    img.classList.add("card-img-top");
+    bootCardBodyDiv.classList.add("card-body");
+    bootCardBodyDiv.textContent = foreachObject.alt;
+    mainDiv.appendChild(bootCardDiv);
+    bootCardDiv.appendChild(img);
+    bootCardDiv.appendChild(bootCardBodyDiv);
 }
