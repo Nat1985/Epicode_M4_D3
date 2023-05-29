@@ -1,10 +1,10 @@
 const apiUrl = "https://api.pexels.com/v1"; //l'indirizzo dell'endpoint da passare al fetch come url
 const apiKey = "tF2lGCLg3V2Sl90gHkjdJ6tastROqqRLls6CcktufE4ILNezlPgJLqY4"; //la api key da inserire in authorization nel header della chiamata fetch
 let mainDiv = document.getElementById("main");
+let amountDiv = document.getElementById("amount");
 
 function getAlbum() {
     let userInput = document.getElementById("input-text").value;
-    console.log(userInput);
     fetch(apiUrl + "/search?query=" + userInput, { 
         headers: {
             authorization: apiKey
@@ -14,18 +14,22 @@ function getAlbum() {
         return res.json()
     })
     .then((resJson) => {
-        putAlbum(resJson.photos)
+        putAlbum(resJson);
     })
     .catch((err) => {console.log("Errore: " + err)});
 }
 
 function putAlbum(json) {
+    console.log(json);
+    let jsonPhotos = json.photos;
     let img;
     let bootCardDiv;
     let bootCardBodyDiv;
     let bootPCardBoyElement;
-    json.forEach(element => {
+    let indexAmount = 0;
+    jsonPhotos.forEach((element, index) => {
         console.log(element);
+        indexAmount++;
         img = document.createElement("img");
         bootCardDiv = document.createElement("div");
         bootCardBodyDiv = document.createElement("div");
@@ -43,4 +47,5 @@ function putAlbum(json) {
         bootCardDiv.appendChild(bootCardBodyDiv);
         bootCardBodyDiv.appendChild(bootPCardBoyElement);
     });
+    amountDiv.innerHTML = `<h4>${indexAmount} elementi trovati.</h4>`;
 }
