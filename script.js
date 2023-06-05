@@ -30,7 +30,7 @@ function putAlbum(uInput, json) {
         createCard(element);
     });
     amountDiv.innerHTML = `<h4>${totalResults} elementi trovati.</h4>`;
-    createFootButtons(uInput, json.page);
+    createFootButtons(uInput, json.page, totalResults);
 }
 
 function createCard(foreachObject) {
@@ -49,10 +49,10 @@ function createCard(foreachObject) {
     bootCardDiv.appendChild(bootCardBodyDiv);
 }
 
-function createFootButtons(startInput, pageNumber) {
+function createFootButtons(startInput, pageNumber, totalImages) {
     let prevButton = document.createElement("button");
     prevButton.type = "submit";
-    prevButton.classList.add("btn", "btn-primary", "mt-4", "mb-4");
+    prevButton.classList.add("btn", "btn-primary");
     prevButton.addEventListener("click", () => {
         getNext(startInput, pageNumber - 1);
     })
@@ -60,14 +60,19 @@ function createFootButtons(startInput, pageNumber) {
 
     let nextButton = document.createElement("button");
     nextButton.type = "submit";
-    nextButton.classList.add("btn", "btn-primary", "mt-4", "mb-4");
+    nextButton.classList.add("btn", "btn-primary");
     nextButton.addEventListener("click", () => {
         getPrev(startInput, pageNumber + 1);
     })
     nextButton.innerText = "Next";
 
+    let pages = document.createElement("span");
+    let totalPages = Math.ceil(totalImages / 15);
+    pages.innerText = `Pagina ${pageNumber} di ${totalPages}`;
+
     footButtonsDiv.innerHTML = "";
     footButtonsDiv.appendChild(prevButton);
+    footButtonsDiv.appendChild(pages);
     footButtonsDiv.appendChild(nextButton);
 }
 
